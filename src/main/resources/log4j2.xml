@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+    <Properties>
+        <Property name="filename">logs/test.log</Property>
+        <Property name="filenameRolling">logs/rolling_test.log</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="RollingFile" filename = "${filenameRolling}"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 KB"/>
+            </Policies>
+        </RollingFile>
+<!--        <Appender type="File" name="FILE" fileName="${filename}">-->
+<!--            <Layout>-->
+<!--                <Pattern>-->
+<!--                    %-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{5} (%F:%L) - %m%n-->
+<!--                </Pattern>-->
+<!--            </Layout>-->
+<!--        </Appender>-->
+        <File name="FILE" fileName="${filename}">
+            <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{5} (%F:%L) - %m%n"/>
+        </File>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n" />
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="by.training.task2" level="warn" />
+        <Root level="error">
+            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="FILE" />
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
