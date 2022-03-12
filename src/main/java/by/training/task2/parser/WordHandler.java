@@ -1,6 +1,7 @@
 package by.training.task2.parser;
 
 import by.training.task2.entity.Component;
+import by.training.task2.entity.CompositeLevelInfo;
 import by.training.task2.entity.PunctuationLeave;
 import by.training.task2.entity.TextComposite;
 import by.training.task2.entity.WordLeave;
@@ -15,12 +16,13 @@ public class WordHandler extends AbstractTextHandler{
     @Override
     public Component handleRequest(String text) {
         final Matcher matcher = pattern.matcher(text);
-        TextComposite composite = new TextComposite();
+        TextComposite composite = new TextComposite(CompositeLevelInfo.TEXT);
         while (matcher.find()) {
-            composite.add(new WordLeave(matcher.group(2).trim()));
+            composite.add(new WordLeave(matcher.group(2).trim(), CompositeLevelInfo.WORD));
             String second = matcher.group(3);
             if (second != null) {
-                composite.add(new PunctuationLeave(second.trim()));
+                var pleave = new PunctuationLeave(second.trim(), CompositeLevelInfo.PUNCTUATION);
+                composite.add(pleave);
             }
         }
         return composite;

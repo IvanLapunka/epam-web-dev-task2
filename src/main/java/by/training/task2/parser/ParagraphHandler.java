@@ -1,5 +1,7 @@
 package by.training.task2.parser;
 
+import by.training.task2.entity.CompositeLevelInfo;
+
 import java.util.regex.Pattern;
 
 public class ParagraphHandler extends AbstractTextHandler {
@@ -8,5 +10,10 @@ public class ParagraphHandler extends AbstractTextHandler {
     @Override
     protected Pattern getPattern() {
         return Pattern.compile(SENTENCE_REGEX);
+    }
+
+    @Override
+    protected CompositeLevelInfo getLevelInfo() {
+        return CompositeLevelInfo.PARAGRAPH;
     }
 }

@@ -3,8 +3,11 @@ package by.training.task2.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextComposite implements Component {
+public class TextComposite extends AbstractComponent {
     private List<Component> parts = new ArrayList<>();
+    public TextComposite(CompositeLevelInfo info) {
+        super(info);
+    }
 
     @Override
     public void add(Component component) {
@@ -19,7 +22,11 @@ public class TextComposite implements Component {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        parts.forEach(part -> sb.append(part.toString()).append(' '));
+        String pr = info.getPrefix();
+        String sf = info.getSuffix();
+        for (Component part: parts) {
+            sb.append(pr).append(part.toString()).append(sf);
+        }
         return sb.toString();
     }
 }
