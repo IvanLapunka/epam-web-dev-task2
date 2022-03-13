@@ -21,6 +21,8 @@ public class Client {
                 break;
                 case '/': expressions.add(new TerminalExpressionDivide());
                 break;
+                case ' ':
+                    break;
                 default:
                     expressions.add(new NonTerminalExpression(Integer.parseInt(value)));
             }

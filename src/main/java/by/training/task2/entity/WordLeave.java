@@ -1,7 +1,5 @@
 package by.training.task2.entity;
 
-import java.util.StringJoiner;
-
 public class WordLeave extends AbstractComponent {
     private String word;
 
