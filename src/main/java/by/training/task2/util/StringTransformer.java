@@ -29,7 +29,8 @@ public class StringTransformer {
             c = curr;
             if (first) {
                 if (c == '-') {
-                    number.append(c);
+                    poland.append('0').append(' ');
+                    operations.push(c);
                     first = false;
                     continue;
                 }
