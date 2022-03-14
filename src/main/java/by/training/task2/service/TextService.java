@@ -8,6 +8,7 @@ import java.util.Map;
 public interface TextService {
     Component sortParagraphsByAmountOfSentences(Component component);
     List<Component> findSentencesWithLongestWord(Component component);
-    Component deleteSentencesWithLessThenAmountOfWords(Component component, int amount);
-    Map<String, Integer> countWordsCaseInsensitive(Component component);
+    void deleteSentencesWithLessThenAmountOfWords(Component component, int amount);
+    Map<String, List<String>> countWordsByLengthCaseInsensitive(Component component);
+    void countVowelsAndConsonantsInSentences(Component component);
 }
