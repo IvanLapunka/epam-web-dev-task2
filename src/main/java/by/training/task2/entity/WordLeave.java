@@ -10,8 +10,6 @@ public class WordLeave extends AbstractComponent {
 
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append(info.getPrefix()).append(word).append(info.getSuffix());
-        return sb.toString();
+        return word;
     }
 }

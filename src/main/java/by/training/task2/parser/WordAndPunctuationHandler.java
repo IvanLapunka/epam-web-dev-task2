@@ -11,15 +11,15 @@ import by.training.task2.util.StringTransformer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WordHandler extends AbstractTextHandler{
-    private static final String DIRTY_WORD_REGEX = "(([^,.!?; ]+)([,.!?;])*)";
-    private static final Pattern pattern = Pattern.compile(DIRTY_WORD_REGEX);
+public class WordAndPunctuationHandler extends AbstractTextHandler{
+    private static final String WORD_REGEX = "(([^,.!?; ]+)([,.!?;])*)";
+    private static final Pattern pattern = Pattern.compile(WORD_REGEX);
     private static final StringTransformer transformer = new StringTransformer();
 
     @Override
     public Component handleRequest(String text) {
         final Matcher matcher = pattern.matcher(text);
-        TextComposite composite = new TextComposite(CompositeLevelInfo.TEXT);
+        TextComposite composite = new TextComposite(CompositeLevelInfo.WORD_AND_PUNCTUATION);
         while (matcher.find()) {
             String word = matcher.group(2).trim();
             composite.add(new WordLeave(fromInfixToValue(word), CompositeLevelInfo.WORD));

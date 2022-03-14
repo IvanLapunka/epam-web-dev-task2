@@ -4,7 +4,8 @@ public enum CompositeLevelInfo {
     TEXT("", ""),
     PARAGRAPH("   ", System.lineSeparator()),
     SENTENCE("", ""),
-    WORD(" ", ""),
+    WORD_AND_PUNCTUATION(" ", ""),
+    WORD("", ""),
     PUNCTUATION("", "");
 
     private final String suffix;

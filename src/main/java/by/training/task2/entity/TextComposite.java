@@ -19,13 +19,21 @@ public class TextComposite extends AbstractComponent {
         parts.remove(component);
     }
 
+    public List<Component> getParts() {
+        return parts;
+    }
+
+    public void setParts(List<Component> parts) {
+        this.parts = parts;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        String pr = info.getPrefix();
-        String sf = info.getSuffix();
         for (Component part: parts) {
-            sb.append(pr).append(part.toString()).append(sf);
+            sb.append(part.getInfo().getPrefix())
+                    .append(part)
+                    .append(part.getInfo().getSuffix());
         }
         return sb.toString();
     }
