@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -64,12 +65,10 @@ public class TextServiceImpl implements TextService {
 
     @Override
     public void deleteSentencesWithLessThenAmountOfWords(Component component, int amount) {
-//        component.getParts().stream()
-//                .flatMap(paragraph -> paragraph.getParts().stream())
-//                .filter()
-////                .flatMap(sentence -> sentence.getParts().stream())
-////                .filter(complexWord -> )
-//        int i = 1;
+        for (Component paragraph: component.getParts()) {
+            paragraph.getParts().removeIf(sentence -> sentence.getParts().size() < amount);
+        }
+        component.getParts().removeIf(paragraph -> paragraph.getParts().size() < 1);
     }
 
     @Override
