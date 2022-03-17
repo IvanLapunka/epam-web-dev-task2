@@ -1,4 +1,7 @@
-package by.training.task2.interpreter;
+package by.training.task2.interpreter.impl;
+
+import by.training.task2.interpreter.AbstractMathExpression;
+import by.training.task2.interpreter.Context;
 
 public class TerminalExpressionPlus implements AbstractMathExpression {
     @Override

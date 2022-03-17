@@ -1,5 +1,11 @@
 package by.training.task2.interpreter;
 
+import by.training.task2.interpreter.impl.NonTerminalExpression;
+import by.training.task2.interpreter.impl.TerminalExpressionDivide;
+import by.training.task2.interpreter.impl.TerminalExpressionMinus;
+import by.training.task2.interpreter.impl.TerminalExpressionMultiply;
+import by.training.task2.interpreter.impl.TerminalExpressionPlus;
+
 import java.util.ArrayList;
 import java.util.List;
 

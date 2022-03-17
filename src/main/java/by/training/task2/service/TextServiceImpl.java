@@ -1,8 +1,9 @@
 package by.training.task2.service;
 
 import by.training.task2.entity.Component;
-import by.training.task2.entity.CompositeLevelInfo;
-import by.training.task2.entity.TextComposite;
+import by.training.task2.entity.VowelsAndConsonants;
+import by.training.task2.entity.CompositeLevelType;
+import by.training.task2.entity.impl.TextCompositeImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -18,23 +18,24 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class TextServiceImpl implements TextService {
+    public static final String VOWELS = "aeiouAEIOU";
     Logger log = LogManager.getLogger();
 
     @Override
     public Component sortParagraphsByAmountOfSentences(Component component) {
-        if (!component.getInfo().equals(CompositeLevelInfo.TEXT)){
-            return component;//throw exception
+        if (!component.getType().equals(CompositeLevelType.TEXT)){
+            return component;//throw or not to throw exception?
         }
         final List<Component> collect = component.getParts().stream()
                 .sorted(Comparator.comparingInt(a -> a.getParts().size()))
                 .collect(Collectors.toList());
-        ((TextComposite)component).setParts(collect);
+        ((TextCompositeImpl)component).setParts(collect);
         return component;
     }
 
     @Override
     public List<Component> findSentencesWithLongestWord(Component component) {
-        if (!component.getInfo().equals(CompositeLevelInfo.TEXT)) {
+        if (!component.getType().equals(CompositeLevelType.TEXT)) {
             return Collections.emptyList();
         }
         Stack<Integer> maxValue = new Stack<>();
@@ -78,8 +79,8 @@ public class TextServiceImpl implements TextService {
                 .flatMap(paragraph -> paragraph.getParts().stream())
                 .flatMap(sentence -> sentence.getParts().stream())
                 .flatMap(wordAndPunctuation -> wordAndPunctuation.getParts().stream())
-                .filter(leave -> leave.getInfo().equals(CompositeLevelInfo.WORD))
-                .map(word -> word.toString())
+                .filter(leave -> leave.getType().equals(CompositeLevelType.WORD))
+                .map(Component::toString)
                 .peek(word -> {
                     if (result.containsKey(word.toLowerCase(Locale.ROOT))) {
                         result.get(word.toLowerCase(Locale.ROOT)).add(word);
@@ -92,25 +93,30 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public void countVowelsAndConsonantsInSentences(Component component) {
-        component.getParts().stream()
-                .flatMap(paragr -> paragr.getParts().stream())
-                .peek(sentence -> {
-                    String vowels = "aeiouAEIOU";
-                    int countVowel = 0;
-                    int countConsonant = 0;
-                    for (char c: sentence.toString().toCharArray()) {
-                        if(Character.isLetter(c)) {
-                            if (vowels.indexOf(c) != -1) {
-                                countVowel++;
-                            } else {
-                                countConsonant++;
-                            }
-                        }
+    public VowelsAndConsonants countVowelsAndConsonantsInComponent(Component component) {
+        if (component.getType() == CompositeLevelType.PUNCTUATION) {
+            return new VowelsAndConsonants(0, 0);
+        }
+        if (component.getType() == CompositeLevelType.WORD) {
+            int vowels = 0;
+            int consonants = 0;
+            for (char c: component.toString().toCharArray()) {
+                if(Character.isLetter(c)) {
+                    if (VOWELS.indexOf(c) != -1) {
+                        vowels++;
+                    } else {
+                        consonants++;
                     }
-                    System.out.println(sentence);
-                    System.out.println("Vowels: " + countVowel);
-                    System.out.println("Consonats: " + countConsonant);
-                }).count();
+                }
+            }
+            return new VowelsAndConsonants(vowels, consonants);
+        }
+        VowelsAndConsonants result = new VowelsAndConsonants(0, 0);
+        component.getParts().forEach(subcomponent -> {
+            var curr = countVowelsAndConsonantsInComponent(subcomponent);
+            result.setVowels(result.getVowels() + curr.getVowels());
+            result.setConsonants(result.getConsonants() + curr.getConsonants());
+        });
+        return result;
     }
 }

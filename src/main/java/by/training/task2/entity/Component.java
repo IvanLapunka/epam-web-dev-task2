@@ -7,5 +7,5 @@ public interface Component {
     default void add(Component component){}
     default void remove(Component component){}
     default List<Component> getParts(){ return Collections.emptyList();}
-    CompositeLevelInfo getInfo();
+    CompositeLevelType getType();
 }

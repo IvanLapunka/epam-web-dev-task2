@@ -1,6 +1,6 @@
 package by.training.task2.entity;
 
-public enum CompositeLevelInfo {
+public enum CompositeLevelType {
     TEXT("", ""),
     PARAGRAPH("   ", System.lineSeparator()),
     SENTENCE("", ""),
@@ -11,7 +11,7 @@ public enum CompositeLevelInfo {
     private final String suffix;
     private final String prefix;
 
-    CompositeLevelInfo(String prefix, String suffix) {
+    CompositeLevelType(String prefix, String suffix) {
         this.prefix = prefix;
         this.suffix = suffix;
     }
