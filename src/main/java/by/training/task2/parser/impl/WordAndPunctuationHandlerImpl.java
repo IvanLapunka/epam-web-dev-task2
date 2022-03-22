@@ -7,11 +7,14 @@ import by.training.task2.entity.impl.TextCompositeImpl;
 import by.training.task2.entity.impl.WordLeafImpl;
 import by.training.task2.interpreter.Client;
 import by.training.task2.util.StringTransformer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WordAndPunctuationHandlerImpl extends AbstractTextHandlerImpl {
+    private static final Logger log = LogManager.getLogger();
     private static final String WORD_REGEX = "(([^,.!?; ]+)([,.!?;])*)";
     private static final Pattern pattern = Pattern.compile(WORD_REGEX);
     private static final StringTransformer transformer = new StringTransformer();
@@ -25,8 +28,8 @@ public class WordAndPunctuationHandlerImpl extends AbstractTextHandlerImpl {
             composite.add(new WordLeafImpl(fromInfixToValue(word), CompositeLevelType.WORD));
             String second = matcher.group(3);
             if (second != null) {
-                var pleave = new PunctuationLeafImpl(second.trim(), CompositeLevelType.PUNCTUATION);
-                composite.add(pleave);
+                var leaf = new PunctuationLeafImpl(second.trim(), CompositeLevelType.PUNCTUATION);
+                composite.add(leaf);
             }
         }
         return composite;
@@ -37,7 +40,7 @@ public class WordAndPunctuationHandlerImpl extends AbstractTextHandlerImpl {
         if (result.equals(string)) {
             return string;
         }
-        System.out.println(result);
+        log.info(result);
         Client client = new Client(result);
         return client.calculate().toString();
     }

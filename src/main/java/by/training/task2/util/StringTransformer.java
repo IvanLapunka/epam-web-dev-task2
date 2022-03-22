@@ -4,14 +4,6 @@ import java.util.Stack;
 
 public class StringTransformer {
 
-    public static void main(String[] args) {
-        String expr = "5*(1+2*(3/(4-(1-56-47)*73)+(-89+4/(42/7)))+1)";
-        //expr = "(1+2)*4+3";
-        StringTransformer transformer = new StringTransformer();
-        final String s = transformer.tryConvertToPolandNotation(expr);
-        System.out.println(s);
-    }
-
     public String convertIfPossibleToPolandNotation(String text) {
         if (text.matches("[()*\\-\\/+0-9]+")) {
             return tryConvertToPolandNotation(text);
