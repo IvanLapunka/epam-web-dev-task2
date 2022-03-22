@@ -17,7 +17,7 @@ public class WordAndPunctuationHandlerImpl extends AbstractTextHandlerImpl {
     private static final StringTransformer transformer = new StringTransformer();
 
     @Override
-    public Component handleRequest(String text) {
+    public Component parse(String text) {
         final Matcher matcher = pattern.matcher(text);
         TextCompositeImpl composite = new TextCompositeImpl(CompositeLevelType.WORD_AND_PUNCTUATION);
         while (matcher.find()) {

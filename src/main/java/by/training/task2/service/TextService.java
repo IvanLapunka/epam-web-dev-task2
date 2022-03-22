@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface TextService {
-    Component sortParagraphsByAmountOfSentences(Component component);
+    void sortParagraphsByAmountOfSentences(Component component);
     List<Component> findSentencesWithLongestWord(Component component);
     void deleteSentencesWithLessThenAmountOfWords(Component component, int amount);
     Map<String, List<String>> countWordsByLengthCaseInsensitive(Component component);

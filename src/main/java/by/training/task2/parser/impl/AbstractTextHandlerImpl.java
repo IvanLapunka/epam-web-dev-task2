@@ -28,14 +28,14 @@ public abstract class AbstractTextHandlerImpl implements ParseHandler {
     }
 
     @Override
-    public Component handleRequest(String text) {
+    public Component parse(String text) {
         Pattern pattern = getPattern();
         final Matcher matcher = pattern.matcher(text);
         TextCompositeImpl composite = new TextCompositeImpl(getLevelInfo());
         while (matcher.find()) {
             log.info("start index: " + matcher.start());
             log.info("end index: " + matcher.end());
-            composite.add(handler.handleRequest(matcher.group().trim()));
+            composite.add(handler.parse(matcher.group().trim()));
         }
         return composite;
     }

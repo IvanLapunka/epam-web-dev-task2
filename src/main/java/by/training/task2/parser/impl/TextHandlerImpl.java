@@ -8,12 +8,12 @@ public class TextHandlerImpl extends AbstractTextHandlerImpl {
     public static final String PARAGRAPH_REGEX = " {4}";
 
     @Override
-    public Component handleRequest(String text) {
+    public Component parse(String text) {
         final String[] array = text.split(PARAGRAPH_REGEX);
         Component composite = new TextCompositeImpl(getLevelInfo());
         for (String paragraph: array) {
             if (paragraph.length() > 0) {
-                composite.add(handler.handleRequest(paragraph.trim()));
+                composite.add(handler.parse(paragraph.trim()));
             }
         }
         return composite;

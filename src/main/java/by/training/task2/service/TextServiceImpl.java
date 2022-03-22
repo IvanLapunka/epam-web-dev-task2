@@ -22,15 +22,14 @@ public class TextServiceImpl implements TextService {
     Logger log = LogManager.getLogger();
 
     @Override
-    public Component sortParagraphsByAmountOfSentences(Component component) {
+    public void sortParagraphsByAmountOfSentences(Component component) {
         if (!component.getType().equals(CompositeLevelType.TEXT)){
-            return component;//throw or not to throw exception?
+            return;//throw or not to throw exception?
         }
         final List<Component> collect = component.getParts().stream()
                 .sorted(Comparator.comparingInt(a -> a.getParts().size()))
                 .collect(Collectors.toList());
         ((TextCompositeImpl)component).setParts(collect);
-        return component;
     }
 
     @Override

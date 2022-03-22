@@ -34,4 +34,22 @@ public class VowelsAndConsonants {
                 .add(", consonants=").add(consonants +"")
                 .toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        VowelsAndConsonants that = (VowelsAndConsonants) o;
+
+        if (vowels != that.vowels) return false;
+        return consonants == that.consonants;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = vowels;
+        result = 31 * result + consonants;
+        return result;
+    }
 }
