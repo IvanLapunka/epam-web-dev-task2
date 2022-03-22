@@ -33,8 +33,6 @@ public abstract class AbstractTextHandlerImpl implements ParseHandler {
         final Matcher matcher = pattern.matcher(text);
         TextCompositeImpl composite = new TextCompositeImpl(getLevelInfo());
         while (matcher.find()) {
-            log.info("start index: " + matcher.start());
-            log.info("end index: " + matcher.end());
             composite.add(handler.parse(matcher.group().trim()));
         }
         return composite;

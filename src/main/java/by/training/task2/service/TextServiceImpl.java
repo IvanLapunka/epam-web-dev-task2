@@ -4,6 +4,7 @@ import by.training.task2.entity.Component;
 import by.training.task2.entity.VowelsAndConsonants;
 import by.training.task2.entity.CompositeLevelType;
 import by.training.task2.entity.impl.TextCompositeImpl;
+import by.training.task2.exception.CustomException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,9 +23,10 @@ public class TextServiceImpl implements TextService {
     Logger log = LogManager.getLogger();
 
     @Override
-    public void sortParagraphsByAmountOfSentences(Component component) {
+    public void sortParagraphsByAmountOfSentences(Component component) throws CustomException {
         if (!component.getType().equals(CompositeLevelType.TEXT)){
-            return;//throw or not to throw exception?
+            log.error("The component level is " + component.getType().toString());
+            throw new CustomException("The processed component should have TEXT level.");
         }
         final List<Component> collect = component.getParts().stream()
                 .sorted(Comparator.comparingInt(a -> a.getParts().size()))
@@ -33,9 +35,10 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public List<Component> findSentencesWithLongestWord(Component component) {
+    public List<Component> findSentencesWithLongestWord(Component component) throws CustomException {
         if (!component.getType().equals(CompositeLevelType.TEXT)) {
-            return Collections.emptyList();
+            log.error("The component level is " + component.getType().toString());
+            throw new CustomException("The processed component should have TEXT level.");
         }
         Stack<Integer> maxValue = new Stack<>();
         maxValue.push(0);
@@ -64,7 +67,11 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public void deleteSentencesWithLessThenAmountOfWords(Component component, int amount) {
+    public void deleteSentencesWithLessThenAmountOfWords(Component component, int amount) throws CustomException {
+        if (!component.getType().equals(CompositeLevelType.TEXT)) {
+            log.error("The component level is " + component.getType().toString());
+            throw new CustomException("The processed component should have TEXT level.");
+        }
         for (Component paragraph: component.getParts()) {
             paragraph.getParts().removeIf(sentence -> sentence.getParts().size() < amount);
         }
@@ -72,7 +79,11 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public Map<String, List<String>> countWordsByLengthCaseInsensitive(Component component) {
+    public Map<String, List<String>> countWordsByLengthCaseInsensitive(Component component) throws CustomException {
+        if (!component.getType().equals(CompositeLevelType.TEXT)) {
+            log.error("The component level is " + component.getType().toString());
+            throw new CustomException("The processed component should have TEXT level.");
+        }
         Map<String, List<String>> result = new HashMap<>();
         component.getParts().stream()
                 .flatMap(paragraph -> paragraph.getParts().stream())
@@ -93,8 +104,9 @@ public class TextServiceImpl implements TextService {
 
     @Override
     public VowelsAndConsonants countVowelsAndConsonantsInComponent(Component component) {
+        VowelsAndConsonants result = new VowelsAndConsonants(0, 0);
         if (component.getType() == CompositeLevelType.PUNCTUATION) {
-            return new VowelsAndConsonants(0, 0);
+            return result;
         }
         if (component.getType() == CompositeLevelType.WORD) {
             int vowels = 0;
@@ -110,7 +122,6 @@ public class TextServiceImpl implements TextService {
             }
             return new VowelsAndConsonants(vowels, consonants);
         }
-        VowelsAndConsonants result = new VowelsAndConsonants(0, 0);
         component.getParts().forEach(subcomponent -> {
             var curr = countVowelsAndConsonantsInComponent(subcomponent);
             result.setVowels(result.getVowels() + curr.getVowels());

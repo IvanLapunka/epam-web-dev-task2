@@ -3,6 +3,7 @@ package by.training.task2.service;
 import by.training.task2.entity.Client;
 import by.training.task2.entity.Component;
 import by.training.task2.entity.VowelsAndConsonants;
+import by.training.task2.exception.CustomException;
 import by.training.task2.parser.ParseHandler;
 import org.junit.jupiter.api.Test;
 
@@ -29,14 +30,18 @@ class TextServiceImplTest {
                 "    A. B. C." + System.lineSeparator() +
                 "    A. B. C. D.";
         final Component sourceComponent = textParser.parse(source);
-        service.sortParagraphsByAmountOfSentences(sourceComponent);
+        try {
+            service.sortParagraphsByAmountOfSentences(sourceComponent);
+        } catch (CustomException e) {
+            e.printStackTrace();
+        }
 
         final Component expectedComponent = textParser.parse(target);
         assertEquals(expectedComponent.toString(), sourceComponent.toString());
     }
 
     @Test
-    void findSentencesWithLongestWord() {
+    void findSentencesWithLongestWord() throws CustomException {
         String sourceText = "    A. B. C. D e fg." + System.lineSeparator() +
                 "    A. B. C." + System.lineSeparator() +
                 "    A. B." + System.lineSeparator() +
@@ -44,7 +49,7 @@ class TextServiceImplTest {
         List<String> expected = List.of(" A bc.", " D e fg.");
         final Component text = textParser.parse(sourceText);
 
-        final List<Component> sentencesWithLongestWord = service.findSentencesWithLongestWord(text);
+        List<Component> sentencesWithLongestWord = service.findSentencesWithLongestWord(text);
         final List<String> result = sentencesWithLongestWord.stream().map(sentence -> sentence.toString())
                 .sorted(Comparator.comparingInt(String::length))
                 .collect(Collectors.toList());
@@ -52,7 +57,7 @@ class TextServiceImplTest {
     }
 
     @Test
-    void deleteSentencesWithLessThenAmountOfWords() {
+    void deleteSentencesWithLessThenAmountOfWords() throws CustomException {
         String source = "    A B C, D." + System.lineSeparator() +
                 "    A B, C." + System.lineSeparator() +
                 "    A B." + System.lineSeparator() +
@@ -66,7 +71,7 @@ class TextServiceImplTest {
     }
 
     @Test
-    void countWordsByLengthCaseInsensitive() {
+    void countWordsByLengthCaseInsensitive() throws CustomException {
         String source = "    A Bb Ccc, Dddd." + System.lineSeparator() +
                 "    A bB, ccc." + System.lineSeparator() +
                 "    A bb." + System.lineSeparator() +

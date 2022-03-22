@@ -15,13 +15,6 @@
                 <SizeBasedTriggeringPolicy size="10 KB"/>
             </Policies>
         </RollingFile>
-<!--        <Appender type="File" name="FILE" fileName="${filename}">-->
-<!--            <Layout>-->
-<!--                <Pattern>-->
-<!--                    %-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{5} (%F:%L) - %m%n-->
-<!--                </Pattern>-->
-<!--            </Layout>-->
-<!--        </Appender>-->
         <File name="FILE" fileName="${filename}">
             <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{5} (%F:%L) - %m%n"/>
         </File>
@@ -30,7 +23,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="by.training.task2" level="warn" />
+        <Logger name="by.training.task2" level="debug" />
         <Root level="error">
             <AppenderRef ref="STDOUT" />
             <AppenderRef ref="FILE" />
