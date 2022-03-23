@@ -23,7 +23,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="by.training.task2" level="debug" />
+        <Logger name="by.training.task2" level="warn" />
         <Root level="error">
             <AppenderRef ref="STDOUT" />
             <AppenderRef ref="FILE" />
